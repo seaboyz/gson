@@ -19,76 +19,26 @@ import com.webdev.model.Customer;
  */
 public class App {
     public static void main(String[] args) {
-        Customer customer = new Customer(1, "johnd", "john@gmail.com", "m38rmF$", "1-570-236-7033", new Date());
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.setPrettyPrinting();
-
-        gsonBuilder.setDateFormat("dd-MM-yyyy");
-
-        // field naming strategy
-        gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
-            @Override
-            public String translateName(Field f) {
-                return f.getName().toUpperCase();
-            }
-        });
-
-        gsonBuilder.setFieldNamingStrategy(FieldNamingPolicy.UPPER_CAMEL_CASE);
-
-        // tranfor filed with new strategy
-        gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
-            @Override
-            public String translateName(Field f) {
-                return f.getName().equals("id") ? "customerId" : f.getName();
-            }
-        });
-
-        // versioning
-        gsonBuilder.setVersion(1.0);
-
-        // serialize null
-        gsonBuilder.serializeNulls();
-
-        customer = new Customer();
-
-        // exlude filed
-        try {
-            File file = new File("backend/src/main/resources/data/users.json");
-            FileReader fileReader = new FileReader(file);
-
-            ExclusionStrategy strategy = new ExclusionStrategy() {
-                @Override
-                public boolean shouldSkipField(FieldAttributes f) {
-                    return f.getName().equals("id");
-                }
-
-                @Override
-                public boolean shouldSkipClass(java.lang.Class<?> clazz) {
-                    return false;
-                }
-            };
-
-             gsonBuilder = new GsonBuilder()
-                    .addDeserializationExclusionStrategy(strategy);
-            
-            Gson gson = gsonBuilder.create();
-
-            Customer[] customers = gson.fromJson(fileReader, Customer[].class);
-            for (Customer c : customers) {
-                System.out.println(c);
-                // session.save(c);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         // read from file
         try {
             File file = new File("src/main/resources/users.json");
             FileReader reader = new FileReader(file);
-            gson = new Gson();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+
+            // change filed strategy
+            gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
+                @Override
+                public String translateName(Field f) {
+                    if (f.getName().equals("phoneNumber")) {
+                        return "phone";
+                    }
+                    return f.getName();
+                }
+            });
+
+            Gson gson = gsonBuilder.create();
+
             Customer[] customers = gson.fromJson(reader, Customer[].class);
 
             for (Customer c : customers) {
@@ -98,17 +48,6 @@ public class App {
             e.printStackTrace();
         }
 
-
-    }
-
-    public static String toJson(Customer customer) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(customer);
-    }
-
-    public static Customer fromJson(String json) {
-        Gson gson = new Gson();
-        return gson.fromJson(json, Customer.class);
     }
 
 }

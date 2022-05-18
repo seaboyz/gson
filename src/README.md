@@ -3,7 +3,7 @@ Notes for learning Gson.
 - [Basic Usage](#basic-usage)
 - [GsonBuilder](#gsonbuilder)
 - [Filed Name Strategy](#filed-name-strategy)
-- [Conditional Change filed name](#conditional-change-filed-name)
+- [Conditional Change filed name(Filed is the name of the class)](#conditional-change-filed-namefiled-is-the-name-of-the-class)
 - [@Since (version filter)](#since-version-filter)
 - [Serielize Nulls](#serielize-nulls)
 - [Read from file.json](#read-from-filejson)
@@ -101,7 +101,7 @@ gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
  gsonBuilder.setFieldNamingStrategy(FieldNamingPolicy.UPPER_CAMEL_CASE);
 ```
 
-#### Conditional Change filed name
+#### Conditional Change filed name(Filed is the name of the class)
 
 ```java
 ```java

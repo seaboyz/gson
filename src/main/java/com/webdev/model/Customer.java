@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Customer {
 
-    @Since(1.0)
-    private Integer id;
-
     @Expose
     @Since(1.0)
     private String username;
@@ -34,6 +31,4 @@ public class Customer {
     @Since(1.0)
     private String phoneNumber;
 
-    @Since(1.1)
-    private Date createdAt;
 }
