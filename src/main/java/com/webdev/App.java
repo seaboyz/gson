@@ -3,6 +3,7 @@ package com.webdev;
 import java.lang.reflect.Field;
 import java.util.Date;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,11 +31,24 @@ public class App {
             }
         });
 
+        gsonBuilder.setFieldNamingStrategy(FieldNamingPolicy.UPPER_CAMEL_CASE);
+
+        // tranfor filed with new strategy
+        gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
+            @Override
+            public String translateName(Field f) {
+                return f.getName().equals("id") ? "customerId" : f.getName();
+            }
+        });
+
+        // versioning
+        gsonBuilder.setVersion(1.0);
+
         Gson gson = gsonBuilder.create();
+
 
         System.out.println(gson.toJson(customer));
 
-        System.out.println(toJson(customer));
     }
 
     public static Gson gson = new Gson();
@@ -46,5 +60,7 @@ public class App {
     public static Customer fromJson(String json) {
         return gson.fromJson(json, Customer.class);
     }
+
+    
 
 }
