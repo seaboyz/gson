@@ -1,7 +1,9 @@
 package com.webdev;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 
+import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.webdev.model.Customer;
@@ -19,6 +21,14 @@ public class App {
         gsonBuilder.setPrettyPrinting();
 
         gsonBuilder.setDateFormat("dd-MM-yyyy");
+
+        // field naming strategy
+        gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
+            @Override
+            public String translateName(Field f) {
+                return f.getName().toUpperCase();
+            }
+        });
 
         Gson gson = gsonBuilder.create();
 
