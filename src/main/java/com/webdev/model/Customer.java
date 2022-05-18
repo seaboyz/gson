@@ -7,8 +7,10 @@ import com.google.gson.annotations.Since;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
     @Since(1.0)
@@ -28,5 +30,4 @@ public class Customer {
 
     @Since(1.1)
     private Date createdAt;
-
 }

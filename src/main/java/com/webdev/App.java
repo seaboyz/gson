@@ -1,7 +1,10 @@
 package com.webdev;
 
+import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.FieldNamingStrategy;
@@ -44,10 +47,26 @@ public class App {
         // versioning
         gsonBuilder.setVersion(1.0);
 
+        // serialize null
+        gsonBuilder.serializeNulls();
+
+        customer = new Customer();
+
         Gson gson = gsonBuilder.create();
 
+        // read from file
+        try {
+            File file = new File("src/main/resources/users.json");
+            FileReader reader = new FileReader(file);
+            gson = new Gson();
+            Customer[] customers = gson.fromJson(reader, Customer[].class);
 
-        System.out.println(gson.toJson(customer));
+            for (Customer c : customers) {
+                System.out.println(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -60,7 +79,5 @@ public class App {
     public static Customer fromJson(String json) {
         return gson.fromJson(json, Customer.class);
     }
-
-    
 
 }

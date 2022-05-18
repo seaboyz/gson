@@ -4,7 +4,10 @@ Notes for learning Gson.
 - [GsonBuilder](#gsonbuilder)
 - [Filed Name Strategy](#filed-name-strategy)
 - [Conditional Change filed name](#conditional-change-filed-name)
-- [@Since](#since)
+- [@Since (version filter)](#since-version-filter)
+- [Serielize Nulls](#serielize-nulls)
+- [Read from file.json](#read-from-filejson)
+- [List to Json](#list-to-json)
 
 #### Basic Usage
 
@@ -119,7 +122,7 @@ gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
 }
 ```
 
-#### @Since
+#### @Since (version filter)
 ```java
 public class Customer {
     @Since(1.0)
@@ -154,3 +157,51 @@ public class Customer {
   // exclude createdAt
 }
 ```
+
+#### Serielize Nulls
+```java
+ // serialize null
+gsonBuilder.serializeNulls();
+Customer customer = new Customer();
+```
+```json
+{
+  "customerId": null,
+  "username": null,
+  "email": null,
+  "password": null,
+  "phoneNumber": null,
+  "createdAt": null
+}
+```
+
+#### Read from file.json
+```java
+ try {
+    File file = new File("src/main/resources/users.json");
+    FileReader reader = new FileReader(file);
+    gson = new Gson();
+    Customer[] customers = gson.fromJson(reader, Customer[].class);
+
+    for (Customer c : customers) {
+        System.out.println(c);
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+```
+```
+Customer(id=1, username=johnd, email=john@gmail.com, password=m38rmF$, phoneNumber=null, createdAt=null)
+Customer(id=2, username=mor_2314, email=morrison@gmail.com, password=83r5^_, phoneNumber=null, createdAt=null)
+Customer(id=3, username=kevinryan, email=kevin@gmail.com, password=kev02937@, phoneNumber=null, createdAt=null)
+Customer(id=4, username=donero, email=don@gmail.com, password=ewedon, phoneNumber=null, createdAt=null)
+Customer(id=5, username=derek, email=derek@gmail.com, password=jklg*_56, phoneNumber=null, createdAt=null)
+Customer(id=6, username=david_r, email=david_r@gmail.com, password=3478*#54, phoneNumber=null, createdAt=null)
+Customer(id=7, username=snyder, email=miriam@gmail.com, password=f238&@*$, phoneNumber=null, createdAt=null)
+Customer(id=8, username=hopkins, email=william@gmail.com, password=William56$hj, phoneNumber=null, createdAt=null)
+Customer(id=9, username=kate_h, email=kate@gmail.com, password=kfejk@*_, phoneNumber=null, createdAt=null)
+Customer(id=10, username=jimmie_k, email=jimmie@gmail.com, password=klein*#%*, phoneNumber=null, createdAt=null)
+```
+
+#### List to Json
+```java
