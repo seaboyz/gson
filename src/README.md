@@ -7,6 +7,7 @@ Notes for learning Gson.
 - [@Since (version filter)](#since-version-filter)
 - [Serielize Nulls](#serielize-nulls)
 - [Read from file.json](#read-from-filejson)
+- [Exclude fields](#exclude-fields)
 - [List to Json](#list-to-json)
 
 #### Basic Usage
@@ -201,6 +202,39 @@ Customer(id=7, username=snyder, email=miriam@gmail.com, password=f238&@*$, phone
 Customer(id=8, username=hopkins, email=william@gmail.com, password=William56$hj, phoneNumber=null, createdAt=null)
 Customer(id=9, username=kate_h, email=kate@gmail.com, password=kfejk@*_, phoneNumber=null, createdAt=null)
 Customer(id=10, username=jimmie_k, email=jimmie@gmail.com, password=klein*#%*, phoneNumber=null, createdAt=null)
+```
+
+#### Exclude fields
+```java
+try {
+            File file = new File("backend/src/main/resources/data/users.json");
+            FileReader fileReader = new FileReader(file);
+
+            ExclusionStrategy strategy = new ExclusionStrategy() {
+                @Override
+                public boolean shouldSkipField(FieldAttributes f) {
+                    return f.getName().equals("id");
+                }
+
+                @Override
+                public boolean shouldSkipClass(java.lang.Class<?> clazz) {
+                    return false;
+                }
+            };
+
+            GsonBuilder gsonBuilder = new GsonBuilder()
+                    .addDeserializationExclusionStrategy(strategy);
+            
+            Gson gson = gsonBuilder.create();
+
+            Customer[] customers = gson.fromJson(fileReader, Customer[].class);
+            for (Customer c : customers) {
+                System.out.println(c);
+                // session.save(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 ```
 
 #### List to Json
