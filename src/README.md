@@ -66,3 +66,24 @@ public class App {
   "createdAt": "18-05-2022"
 }
 ```
+
+#### Filed Name Strategy
+
+```java
+
+gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
+    @Override
+    public String translateName(Field f) {
+        return f.getName().toUpperCase();
+        }});
+```
+```json
+{
+  "ID": 1,
+  "USERNAME": "johnd",
+  "EMAIL": "john@gmail.com",
+  "PASSWORD": "m38rmF$",
+  "PHONENUMBER": "1-570-236-7033",
+  "CREATEDAT": "18-05-2022"
+}
+```
