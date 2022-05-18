@@ -9,6 +9,7 @@ Notes for learning Gson.
 - [Read from file.json](#read-from-filejson)
 - [Exclude fields](#exclude-fields)
 - [List to Json](#list-to-json)
+- [JsonObject](#jsonobject)
 
 #### Basic Usage
 
@@ -239,3 +240,48 @@ try {
 
 #### List to Json
 ```java
+SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+
+        // get all customers
+        List<Customer> customers = session.createQuery("from Customer", Customer.class).getResultList();
+
+        
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+
+        gsonBuilder.setPrettyPrinting();
+
+        Gson gson = gsonBuilder.create();
+
+        String json = gson.toJson(customers);
+
+        System.out.println(json);
+
+        session.close();
+        sessionFactory.close();
+```
+
+#### JsonObject
+```java
+try {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("id", 101);
+            obj.addProperty("username", "seaboyz");
+            obj.addProperty("password", "123456");
+            obj.addProperty("email", "example@example.com");
+
+            GsonBuilder builder = new GsonBuilder();
+
+            builder.setPrettyPrinting();
+
+            Gson gson = builder.create();
+
+            String json = gson.toJson(obj);
+
+            System.out.println(json);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+```

@@ -1,13 +1,8 @@
 package com.webdev;
 
-import java.io.File;
-import java.io.FileReader;
-import java.lang.reflect.Field;
-
-import com.google.gson.FieldNamingStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.webdev.model.Customer;
+import com.google.gson.JsonObject;
 
 /**
  * Hello world!
@@ -18,28 +13,22 @@ public class App {
 
         // read from file
         try {
-            File file = new File("src/main/resources/users.json");
-            FileReader reader = new FileReader(file);
-            GsonBuilder gsonBuilder = new GsonBuilder();
+            JsonObject obj = new JsonObject();
+            obj.addProperty("id", 101);
+            obj.addProperty("username", "seaboyz");
+            obj.addProperty("password", "123456");
+            obj.addProperty("email", "example@example.com");
 
-            // change filed strategy
-            gsonBuilder.setFieldNamingStrategy(new FieldNamingStrategy() {
-                @Override
-                public String translateName(Field f) {
-                    if (f.getName().equals("phoneNumber")) {
-                        return "phone";
-                    }
-                    return f.getName();
-                }
-            });
+            GsonBuilder builder = new GsonBuilder();
 
-            Gson gson = gsonBuilder.create();
+            builder.setPrettyPrinting();
 
-            Customer[] customers = gson.fromJson(reader, Customer[].class);
+            Gson gson = builder.create();
 
-            for (Customer c : customers) {
-                System.out.println(c);
-            }
+            String json = gson.toJson(obj);
+
+            System.out.println(json);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
